@@ -1,37 +1,31 @@
 package com.aiglesiaspubill.finalandroidsuperpoderes.ui.login
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonColors
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.material.*
+import androidx.compose.material.icons.filled.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.aiglesiaspubill.finalandroidsuperpoderes.R
+import com.aiglesiaspubill.finalandroidsuperpoderes.ui.login.LoginViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Preview(showSystemUi = true)
 @Composable
 fun LoginScreen(viewModel: LoginViewModel = hiltViewModel(), onNavigateToList: () -> (Unit) = {}) {
 
-    val success = viewModel.loginSucces.observeAsState(false)
+    val success = viewModel.loginSucces.collectAsState()
 
     LaunchedEffect(key1 = success.value) {
         if (success.value) {
@@ -49,7 +43,7 @@ fun LoginScreen(viewModel: LoginViewModel = hiltViewModel(), onNavigateToList: (
             modifier = Modifier.align(Alignment.CenterHorizontally),
         ) {
             LoginButton() {
-                viewModel.navigateToList()
+                viewModel.getLogin()
             }
         }
     }

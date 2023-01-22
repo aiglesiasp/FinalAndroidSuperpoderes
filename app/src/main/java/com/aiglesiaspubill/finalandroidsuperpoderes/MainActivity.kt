@@ -18,7 +18,9 @@ import com.aiglesiaspubill.finalandroidsuperpoderes.ui.detail.DetailScreen
 import com.aiglesiaspubill.finalandroidsuperpoderes.ui.heroesList.HeroesListScreen
 import com.aiglesiaspubill.finalandroidsuperpoderes.ui.login.LoginScreen
 import com.aiglesiaspubill.finalandroidsuperpoderes.ui.theme.FinalAndroidSuperpoderesTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

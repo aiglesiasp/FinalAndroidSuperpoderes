@@ -1,6 +1,8 @@
 package com.aiglesiaspubill.finalandroidsuperpoderes.ui.heroesList
 
+import android.content.ClipData
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -25,8 +27,11 @@ import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Hero
 
 @Preview(showSystemUi = true)
 @Composable
-fun HeroesListScreen(viewModel: HeroesListViewModel = hiltViewModel(), onNavigateToDetail: () -> (Unit) = {}) {
-    val success = viewModel.state.observeAsState(false)
+fun HeroesListScreen(
+    viewModel: HeroesListViewModel = hiltViewModel(),
+    onNavigateToDetail: () -> (Unit) = {}
+) {
+    val success = viewModel.hero.collectAsState()
 
     LaunchedEffect(key1 = success.value) {
         if (success.value) {
@@ -36,32 +41,35 @@ fun HeroesListScreen(viewModel: HeroesListViewModel = hiltViewModel(), onNavigat
 
     Scaffold(modifier = Modifier.fillMaxSize()) {
         val heros = viewModel.heros.collectAsState()
-        MyLazyColumn(heros = heros.value[0].data.results ,viewModel = viewModel)
+        MyLazyColumn(heros = heros.value, viewModel = viewModel)
     }
 }
 
 @Composable
 fun MyLazyColumn(heros: List<Hero> = emptyList(), viewModel: HeroesListViewModel) {
 
-    LazyColumn(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
-        itemsIndexed(heros) {_, hero ->
-            Item(hero.name, hero.thumbnail.path) {
-                viewModel.navigateToDetail()
-            }
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        itemsIndexed(heros) { _, hero ->
+            Item(hero, viewModel)
         }
     }
 }
 
-
-
 @Composable
-fun Item(name: String = "Goku", photo: String = "", onClick: () -> Unit) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
+fun Item(hero: Hero, viewModel: HeroesListViewModel) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable { viewModel.navigateToDetail() }) {
         Image(
-            painter = rememberAsyncImagePainter(model = photo),
+            painter = rememberAsyncImagePainter(model = hero.photo),
             contentDescription = "Hero Photo",
             modifier = Modifier.size(100.dp)
         )
-        Text(text = name, Modifier.padding(8.dp), style = MaterialTheme.typography.h5)
+        Text(text = hero.name, Modifier.padding(8.dp), style = MaterialTheme.typography.h5)
     }
 }

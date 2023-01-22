@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Hero
 import com.aiglesiaspubill.finalandroidsuperpoderes.domain.HeroDataWrapper
 import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Repository
@@ -16,13 +17,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HeroesListViewModel @Inject constructor(private val repository: Repository): ViewModel() {
-    private val _heros = MutableStateFlow(emptyList<HeroDataWrapper>())
-    val heros: MutableStateFlow<List<HeroDataWrapper>> get() = _heros
+    private val _heros = MutableStateFlow(emptyList<Hero>())
+    val heros: MutableStateFlow<List<Hero>> get() = _heros
 
-    private val _state = MutableLiveData<Boolean>()
-    val state: LiveData<Boolean> get() = _state
+    private val _hero = MutableStateFlow(false)
+    val hero: StateFlow<Boolean> get() = _hero
 
-    private fun setValueOnMainThreadHeros(value: List<HeroDataWrapper>) {
+    private fun setValueOnMainThreadHeros(value: List<Hero>) {
         viewModelScope.launch(Dispatchers.Main) {
             _heros.value = value
         }
@@ -30,7 +31,7 @@ class HeroesListViewModel @Inject constructor(private val repository: Repository
 
     private fun setValueOnMainThreadState(value: Boolean) {
         viewModelScope.launch(Dispatchers.Main) {
-            _state.value = value
+            _hero.value = value
         }
     }
 
@@ -48,6 +49,12 @@ class HeroesListViewModel @Inject constructor(private val repository: Repository
     }
 
     fun navigateToDetail() {
-        setValueOnMainThreadState(true)
+        viewModelScope.launch {
+            val success = withContext(Dispatchers.IO) {
+                repository.navigatetoDetail()
+            }
+            setValueOnMainThreadState(success)
+        }
     }
+
 }
