@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -22,12 +22,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Hero
+import com.aiglesiaspubill.finalandroidsuperpoderes.navigation.Screens
 
-@Preview(showSystemUi = true)
 @Composable
 fun HeroesListScreen(
+    navController: NavController,
     viewModel: HeroesListViewModel = hiltViewModel(),
     onNavigateToDetail: () -> (Unit) = {}
 ) {
@@ -39,32 +41,39 @@ fun HeroesListScreen(
         }
     }
 
-    Scaffold(modifier = Modifier.fillMaxSize()) {
+    Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
+        TopAppBar() {
+            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Volver atras",
+                modifier = Modifier.clickable { navController.popBackStack() })
+            Text(text = "PANTALLA DE HEROES")
+        }
+    }) {
         val heros = viewModel.heros.collectAsState()
-        MyLazyColumn(heros = heros.value, viewModel = viewModel)
+        MyLazyColumn(heros = heros.value, viewModel = viewModel, navController)
     }
 }
 
 @Composable
-fun MyLazyColumn(heros: List<Hero> = emptyList(), viewModel: HeroesListViewModel) {
+fun MyLazyColumn(heros: List<Hero> = emptyList(), viewModel: HeroesListViewModel, navController: NavController) {
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         itemsIndexed(heros) { _, hero ->
-            Item(hero, viewModel)
+            Item(hero, viewModel, navController)
         }
     }
 }
 
 @Composable
-fun Item(hero: Hero, viewModel: HeroesListViewModel) {
+fun Item(hero: Hero, viewModel: HeroesListViewModel, navController: NavController) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .clickable { viewModel.navigateToDetail() }) {
+            .clickable { navController.navigate(Screens.Detail.route + "/${hero.name}/${hero.id}") }
+    ) {
         Image(
             painter = rememberAsyncImagePainter(model = hero.photo),
             contentDescription = "Hero Photo",

@@ -13,7 +13,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.aiglesiaspubill.finalandroidsuperpoderes.ui.Screens
+import com.aiglesiaspubill.finalandroidsuperpoderes.navigation.AppNavigation
+import com.aiglesiaspubill.finalandroidsuperpoderes.navigation.Screens
 import com.aiglesiaspubill.finalandroidsuperpoderes.ui.detail.DetailScreen
 import com.aiglesiaspubill.finalandroidsuperpoderes.ui.heroesList.HeroesListScreen
 import com.aiglesiaspubill.finalandroidsuperpoderes.ui.login.LoginScreen
@@ -29,38 +30,9 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background)
                 {
-                    val navController = rememberNavController()
-
-                    NavHost(navController = navController, startDestination = Screens.Login.route) {
-                        composable(Screens.Login.route) {
-                            LoginScreen() {
-                                navController.navigate(Screens.HeroList.route)
-                            }
-                        }
-                        composable(Screens.HeroList.route) {
-                            HeroesListScreen() {
-                                navController.navigate(Screens.Detail.route)
-                            }
-                        }
-                        composable(Screens.Detail.route) {
-                            DetailScreen()
-                        }
-                    }
+                    AppNavigation()
                 }
             }
-        }
-    }
-
-    @Composable
-    fun Greeting(name: String) {
-        Text(text = "Hello $name!")
-    }
-
-    @Preview(showBackground = true)
-    @Composable
-    fun DefaultPreview() {
-        FinalAndroidSuperpoderesTheme {
-            Greeting("Android")
         }
     }
 }

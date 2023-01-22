@@ -21,9 +21,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.aiglesiaspubill.finalandroidsuperpoderes.R
 import com.aiglesiaspubill.finalandroidsuperpoderes.ui.heroesList.HeroesListViewModel
 
-@Preview(showSystemUi = true)
 @Composable
-fun DetailScreen(viewModel: DetailViewModel= hiltViewModel()) {
+fun DetailScreen(name: String,description: String, viewModel: DetailViewModel= hiltViewModel()) {
 
     //val hero = viewModel.hero.collectAsState()
 
@@ -33,13 +32,13 @@ fun DetailScreen(viewModel: DetailViewModel= hiltViewModel()) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         SetImage()
-        SetName()
-        SetDescription()
+        SetName(name)
+        SetDescription(description)
     }
 }
 
 @Composable
-fun SetImage(id: Int = R.drawable.ic_fondo_pantalla_capitan_america ) {
+fun SetImage(id: Int = R.drawable.fondo_marvel ) {
     val imageModifier = Modifier
         .fillMaxWidth()
         .height(200.dp)
