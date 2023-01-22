@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.aiglesiaspubill.finalandroidsuperpoderes.ui.Screens
+import com.aiglesiaspubill.finalandroidsuperpoderes.ui.detail.DetailScreen
 import com.aiglesiaspubill.finalandroidsuperpoderes.ui.heroesList.HeroesListScreen
 import com.aiglesiaspubill.finalandroidsuperpoderes.ui.login.LoginScreen
 import com.aiglesiaspubill.finalandroidsuperpoderes.ui.theme.FinalAndroidSuperpoderesTheme
@@ -35,24 +36,29 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                         composable(Screens.HeroList.route) {
-                            HeroesListScreen()
+                            HeroesListScreen() {
+                                navController.navigate(Screens.Detail.route)
+                            }
+                        }
+                        composable(Screens.Detail.route) {
+                            DetailScreen()
                         }
                     }
                 }
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
+    @Composable
+    fun Greeting(name: String) {
+        Text(text = "Hello $name!")
+    }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    FinalAndroidSuperpoderesTheme {
-        Greeting("Android")
+    @Preview(showBackground = true)
+    @Composable
+    fun DefaultPreview() {
+        FinalAndroidSuperpoderesTheme {
+            Greeting("Android")
+        }
     }
 }

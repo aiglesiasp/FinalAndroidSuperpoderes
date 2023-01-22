@@ -23,5 +23,5 @@ class LoginViewModel @Inject constructor() : ViewModel() {
 
     fun navigateToList() {
         setValueOnMainThread(true)
-        }
     }
+}

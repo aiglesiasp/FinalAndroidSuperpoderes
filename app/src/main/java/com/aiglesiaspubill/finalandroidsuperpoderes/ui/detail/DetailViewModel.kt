@@ -1,4 +1,7 @@
 package com.aiglesiaspubill.finalandroidsuperpoderes.ui.detail
 
-class DetailViewModel {
+import androidx.lifecycle.ViewModel
+
+class DetailViewModel: ViewModel() {
+
 }
