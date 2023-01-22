@@ -23,14 +23,16 @@ fun AppNavigation() {
         composable(Screens.HeroList.route) {
             HeroesListScreen(navController)
         }
-        composable(Screens.Detail.route + "/{name}/{description}",
+        composable(Screens.Detail.route + "/{name}/{photo}/{description}",
             arguments = listOf(
                 navArgument("name") { type = NavType.StringType },
-                navArgument("description") { type = NavType.StringType }
+                navArgument("description") { type = NavType.StringType },
+                navArgument("photo") { type = NavType.StringType }
             )) {
             val name = it.arguments?.getString("name") ?: "NO HAY NOMBRE"
             val description = it.arguments?.getString("description") ?: "NO HAY DESCRIPCION"
-            DetailScreen(name, description)
+            val photo = it.arguments?.getString("photo") ?: "NO HAY FOTO"
+            DetailScreen(name,photo, description)
         }
     }
 }

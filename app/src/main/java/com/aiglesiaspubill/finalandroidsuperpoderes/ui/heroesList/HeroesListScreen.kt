@@ -72,7 +72,7 @@ fun Item(hero: Hero, viewModel: HeroesListViewModel, navController: NavControlle
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .clickable { navController.navigate(Screens.Detail.route + "/${hero.name}/${hero.id}") }
+            .clickable { navController.navigate(Screens.Detail.route + "/${hero.name}/${hero.photo}/${hero.id}") }
     ) {
         Image(
             painter = rememberAsyncImagePainter(model = hero.photo),
