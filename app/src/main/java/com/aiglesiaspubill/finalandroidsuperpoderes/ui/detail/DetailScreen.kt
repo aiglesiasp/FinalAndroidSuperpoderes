@@ -31,7 +31,7 @@ fun DetailScreen(id: Int, viewModel: DetailViewModel= hiltViewModel()) {
     ) {
         SetImage(heros.value.thumbnail.path + "." + heros.value.thumbnail.extension)
         SetName(heros.value.name)
-        SetDescription(heros.value.id.toString())
+        SetDescription(heros.value.description)
     }
 }
 
