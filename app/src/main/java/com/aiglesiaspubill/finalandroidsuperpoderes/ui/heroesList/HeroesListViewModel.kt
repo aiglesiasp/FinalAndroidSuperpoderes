@@ -38,12 +38,12 @@ class HeroesListViewModel @Inject constructor(private val repository: Repository
     }
 
     init {
-        getHerosNew()
+        getHeros()
     }
 
-    fun getHerosNew() {
+    fun getHeros() {
         viewModelScope.launch {
-            repository.getHeroesNew().flowOn(Dispatchers.IO).collect() {
+            repository.getHeroes().flowOn(Dispatchers.IO).collect() {
                 setValueOnMainThreadHerosDataWrapper(it)
             }
         }

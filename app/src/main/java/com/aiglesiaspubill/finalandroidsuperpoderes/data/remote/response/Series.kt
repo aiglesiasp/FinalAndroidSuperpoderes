@@ -1,18 +1,20 @@
 package com.aiglesiaspubill.finalandroidsuperpoderes.data.remote.response
 
+import com.squareup.moshi.Json
+
 // MARK: - Welcome
 data class SeriesDataWrapper(
-    val data: SeriesDataContainer
+    @Json(name = "data") val data: SeriesDataContainer
 )
 
 
 data class SeriesDataContainer (
-    val results: List<Series>
+    @Json(name = "results") val results: List<Series>
         )
 
 data class Series(
-    val id: Int,
-    val title: String,
-    val description: String?,
-    val thumbnail: Thumbnail
+    @Json(name = "id") val id: Int,
+    @Json(name = "title") val title: String,
+    @Json(name = "description") val description: String?,
+    @Json(name = "thumbnail")  val thumbnail: Thumbnail
 )

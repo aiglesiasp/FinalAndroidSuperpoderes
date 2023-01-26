@@ -21,7 +21,6 @@ import coil.compose.AsyncImage
 fun DetailScreen(id: Int, viewModel: DetailViewModel= hiltViewModel()) {
 
     viewModel.getHeroDetail(id)
-
     val heros = viewModel.hero.collectAsState()
 
     Column(

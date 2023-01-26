@@ -45,25 +45,25 @@ fun HeroesListScreen(
         }
     }) {
         Log.d("HEROES NUEVOS", "${heros.value}")
-        MyLazyColumn(heros = heros.value, viewModel = viewModel, navController)
+        MyLazyColumn(heros = heros.value, navController)
     }
 }
 
 @Composable
-fun MyLazyColumn(heros: List<HeroRemote> = emptyList(), viewModel: HeroesListViewModel, navController: NavController) {
+fun MyLazyColumn(heros: List<HeroRemote> = emptyList(), navController: NavController) {
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         itemsIndexed(heros) { _, hero ->
-            Item(hero, viewModel, navController)
+            Item(hero, navController)
         }
     }
 }
 
 @Composable
-fun Item(hero: HeroRemote, viewModel: HeroesListViewModel, navController: NavController) {
+fun Item(hero: HeroRemote, navController: NavController) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -73,8 +73,8 @@ fun Item(hero: HeroRemote, viewModel: HeroesListViewModel, navController: NavCon
         Image(
             painter = rememberAsyncImagePainter(model = "${hero.thumbnail.path}.${hero.thumbnail.extension}"),
             contentDescription = "Hero Photo",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxWidth().height(200.dp).padding(8.dp)
+            modifier = Modifier.fillMaxWidth().height(250.dp).padding(8.dp),
+            contentScale = ContentScale.Crop
         )
         Text(text = hero.name, Modifier.padding(8.dp), style = MaterialTheme.typography.subtitle1)
     }

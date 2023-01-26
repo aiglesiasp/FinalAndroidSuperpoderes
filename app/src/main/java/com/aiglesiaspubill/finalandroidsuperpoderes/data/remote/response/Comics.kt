@@ -1,17 +1,19 @@
 package com.aiglesiaspubill.finalandroidsuperpoderes.data.remote.response
 
+import com.squareup.moshi.Json
+
 data class ComicsDataWrapper(
-    val data: ComicsDataContainer
+    @Json(name = "data") val data: ComicsDataContainer
 )
 
 
 data class ComicsDataContainer (
-    val results: List<Series>
+    @Json(name = "results") val results: List<Series>
 )
 
 data class Comic(
-    val id: Int,
-    val title: String,
-    val description: String?,
-    val thumbnail: Thumbnail
+    @Json(name = "id") val id: Int,
+    @Json(name = "title") val title: String,
+    @Json(name = "description") val description: String?,
+    @Json(name = "thumbnail") val thumbnail: Thumbnail
 )

@@ -5,7 +5,6 @@ import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Hero
 import kotlinx.coroutines.flow.Flow
 
 interface RemoteDataSource {
-    //suspend fun getHeros(token: String) : Flow<List<Hero>>
-    suspend fun getHerosNew() : Flow<List<HeroRemote>>
-    abstract suspend fun getHeroDetail(id: Int): Flow<List<HeroRemote>>
+    suspend fun getHeros() : Flow<List<HeroRemote>>
+    suspend fun getHeroDetail(id: Int): Flow<List<HeroRemote>>
 }
