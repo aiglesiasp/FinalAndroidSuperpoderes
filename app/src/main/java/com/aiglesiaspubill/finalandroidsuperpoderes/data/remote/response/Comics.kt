@@ -1,4 +1,4 @@
-package com.aiglesiaspubill.finalandroidsuperpoderes.domain
+package com.aiglesiaspubill.finalandroidsuperpoderes.data.remote.response
 
 data class ComicsDataWrapper(
     val data: ComicsDataContainer

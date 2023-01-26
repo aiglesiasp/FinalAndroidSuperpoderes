@@ -21,11 +21,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RemoteModule {
 
-    private const val TAG_TOKEN =
-        "eyJraWQiOiJwcml2YXRlIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJpZGVudGlmeSI6IkM3QTZBRENFLUM3MjUtNDlFRi04MEFDLTMxNDVCODkxQzg5NC" +
-                "IsImV4cGlyYXRpb24iOjY0MDkyMjExMjAwLCJlbWFpbCI6ImFpZ2xlc2lhc3B1YmlsbEBnbWFpbC5jb20ifQ.NjSKR" +
-                "-UPBTVSNIKunr8QPjwUiZJcnUObOv0pYG28Avc"
-
     //NOS DA EL MOSHI
     @Provides
     fun provideMoshi(): Moshi {
@@ -34,11 +29,13 @@ object RemoteModule {
             .build()
         return moshi
     }
+
     //NOS DA EL SHAREDPREFERENCES
     @Provides
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
         return context.getSharedPreferences("NAME", Context.MODE_PRIVATE)
     }
+
     //NOS DA EL HTTPLOGINGINTERCEPTOR
     @Provides
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
@@ -51,18 +48,29 @@ object RemoteModule {
 
     //NOS DA EL OKHTTPCLIENT
     @Provides
-    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor, sharedPreferences: SharedPreferences): OkHttpClient {
+    fun provideOkHttpClient(
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        sharedPreferences: SharedPreferences
+    ): OkHttpClient {
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor { chain ->
                 Log.d("AUTENTICADOR", "ENTRANDO EN EL INTERCEPTOR")
                 val originalRequest = chain.request()
+                val newUrl = originalRequest.url.newBuilder()
+                    .addQueryParameter("apikey", "cfa84e8f63e43679a5f9299c92a964a7")
+                    .addQueryParameter("ts", "1")
+                    .addQueryParameter("hash", "6ee3533574aa152e469b939894ec2f49")
+                    .addQueryParameter("orderBy", "-modified")
+                    .build()
+
                 val newRequest = originalRequest.newBuilder()
-                    .header("Content-Type", "Application/Json")
+                    .url(newUrl)
                     .build()
                 chain.proceed(newRequest)
             }
             .authenticator { _, response ->
-                    response.request.newBuilder().build()
+                response.request.newBuilder()
+                    .build()
             }
             .addInterceptor(httpLoggingInterceptor)
             .build()
@@ -74,7 +82,7 @@ object RemoteModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
         var retrofit = Retrofit.Builder()
-            .baseUrl("https://dragonball.keepcoding.education")
+            .baseUrl("https://gateway.marvel.com")
             .client(okHttpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi).asLenient())
             .build()
@@ -84,7 +92,7 @@ object RemoteModule {
     //NOS DA EL API
     @Provides
     @Singleton
-    fun provideAPI(retrofit: Retrofit) : MarvelAPI {
+    fun provideAPI(retrofit: Retrofit): MarvelAPI {
         var api: MarvelAPI = retrofit.create(MarvelAPI::class.java)
         return api
     }

@@ -1,12 +1,9 @@
 package com.aiglesiaspubill.finalandroidsuperpoderes.ui.heroesList
 
-import android.content.ClipData
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
@@ -15,16 +12,14 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Hero
+import com.aiglesiaspubill.finalandroidsuperpoderes.data.remote.response.HeroRemote
 import com.aiglesiaspubill.finalandroidsuperpoderes.navigation.Screens
 
 @Composable
@@ -33,7 +28,8 @@ fun HeroesListScreen(
     viewModel: HeroesListViewModel = hiltViewModel(),
     onNavigateToDetail: () -> (Unit) = {}
 ) {
-    val success = viewModel.hero.collectAsState()
+    val success = viewModel.state.collectAsState()
+    val heros = viewModel.herosDataWrapper.collectAsState()
 
     LaunchedEffect(key1 = success.value) {
         if (success.value) {
@@ -48,13 +44,13 @@ fun HeroesListScreen(
             Text(text = "PANTALLA DE HEROES")
         }
     }) {
-        val heros = viewModel.heros.collectAsState()
+        Log.d("HEROES NUEVOS", "${heros.value}")
         MyLazyColumn(heros = heros.value, viewModel = viewModel, navController)
     }
 }
 
 @Composable
-fun MyLazyColumn(heros: List<Hero> = emptyList(), viewModel: HeroesListViewModel, navController: NavController) {
+fun MyLazyColumn(heros: List<HeroRemote> = emptyList(), viewModel: HeroesListViewModel, navController: NavController) {
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -67,18 +63,19 @@ fun MyLazyColumn(heros: List<Hero> = emptyList(), viewModel: HeroesListViewModel
 }
 
 @Composable
-fun Item(hero: Hero, viewModel: HeroesListViewModel, navController: NavController) {
+fun Item(hero: HeroRemote, viewModel: HeroesListViewModel, navController: NavController) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .clickable { navController.navigate(Screens.Detail.route + "/${hero.name}/${hero.photo}/${hero.id}") }
+            .clickable { navController.navigate(Screens.Detail.route + "/${hero.id}") }
     ) {
         Image(
-            painter = rememberAsyncImagePainter(model = hero.photo),
+            painter = rememberAsyncImagePainter(model = "${hero.thumbnail.path}.${hero.thumbnail.extension}"),
             contentDescription = "Hero Photo",
-            modifier = Modifier.size(100.dp)
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxWidth().height(200.dp).padding(8.dp)
         )
-        Text(text = hero.name, Modifier.padding(8.dp), style = MaterialTheme.typography.h5)
+        Text(text = hero.name, Modifier.padding(8.dp), style = MaterialTheme.typography.subtitle1)
     }
 }

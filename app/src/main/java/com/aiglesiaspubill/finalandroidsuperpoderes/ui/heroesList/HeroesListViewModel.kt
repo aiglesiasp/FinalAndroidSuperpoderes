@@ -5,8 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.aiglesiaspubill.finalandroidsuperpoderes.data.remote.response.HeroDataWrapper
+import com.aiglesiaspubill.finalandroidsuperpoderes.data.remote.response.HeroRemote
 import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Hero
-import com.aiglesiaspubill.finalandroidsuperpoderes.domain.HeroDataWrapper
 import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,34 +18,34 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HeroesListViewModel @Inject constructor(private val repository: Repository): ViewModel() {
-    private val _heros = MutableStateFlow(emptyList<Hero>())
-    val heros: MutableStateFlow<List<Hero>> get() = _heros
 
-    private val _hero = MutableStateFlow(false)
-    val hero: StateFlow<Boolean> get() = _hero
+    private val _state = MutableStateFlow(false)
+    val state: StateFlow<Boolean> get() = _state
 
-    private fun setValueOnMainThreadHeros(value: List<Hero>) {
+    private val _herosDataWrapper = MutableStateFlow(emptyList<HeroRemote>())
+    val herosDataWrapper: MutableStateFlow<List<HeroRemote>> get() = _herosDataWrapper
+
+    private fun setValueOnMainThreadHerosDataWrapper(value: List<HeroRemote>) {
         viewModelScope.launch(Dispatchers.Main) {
-            _heros.value = value
+            _herosDataWrapper.value = value
         }
     }
 
     private fun setValueOnMainThreadState(value: Boolean) {
         viewModelScope.launch(Dispatchers.Main) {
-            _hero.value = value
+            _state.value = value
         }
     }
 
     init {
-        getHeros()
+        getHerosNew()
     }
 
-
-    fun getHeros() {
+    fun getHerosNew() {
         viewModelScope.launch {
-           repository.getHeroes().flowOn(Dispatchers.IO).collect() {
-               setValueOnMainThreadHeros(it)
-           }
+            repository.getHeroesNew().flowOn(Dispatchers.IO).collect() {
+                setValueOnMainThreadHerosDataWrapper(it)
+            }
         }
     }
 

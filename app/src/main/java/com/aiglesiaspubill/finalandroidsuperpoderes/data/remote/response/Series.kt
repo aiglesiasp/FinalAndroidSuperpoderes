@@ -1,4 +1,4 @@
-package com.aiglesiaspubill.finalandroidsuperpoderes.domain
+package com.aiglesiaspubill.finalandroidsuperpoderes.data.remote.response
 
 // MARK: - Welcome
 data class SeriesDataWrapper(
