@@ -1,9 +1,11 @@
 package com.aiglesiaspubill.finalandroidsuperpoderes.ui.detail
 
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,21 +18,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Comic
+import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Hero
+import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Serie
 
 @Composable
 fun DetailScreen(id: Int, viewModel: DetailViewModel= hiltViewModel()) {
 
-    viewModel.getHeroDetail(id)
-    val heros = viewModel.hero.collectAsState()
+    LaunchedEffect(key1 = id) {
+        if (id > 0) {
+            initCalling(viewModel, id)
+        }
+    }
+    val hero = viewModel.hero.collectAsState()
+    val series = viewModel.serie.collectAsState()
+    val comics = viewModel.comic.collectAsState()
 
     Column(
         modifier = Modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SetImage(heros.value.thumbnail.path + "." + heros.value.thumbnail.extension)
-        SetName(heros.value.name)
-        SetDescription(heros.value.description)
+        SetHero(hero.value)
+        SetSeries(series.value)
+        SetComics(comics.value)
     }
 }
 
@@ -60,15 +71,43 @@ fun SetName(name: String = "Goku") {
 }
 
 @Composable
-fun SetDescription(description: String = "mmamamamammmamammammammmama") {
+fun SetDescription(description: String = "VACIA") {
     Text(
-        text = description,
+        text = "DESCRIPCION: $description",
         modifier = Modifier
             .fillMaxWidth()
             .absolutePadding(bottom = 10.dp, left = 10.dp),
         textAlign = TextAlign.Start,
         textDecoration = TextDecoration.None,
         color = Color.Black,
-        fontSize = 15.sp
+        fontSize = 12.sp
     )
+}
+
+@Composable
+fun SetHero(heroList: List<Hero> = emptyList()) {
+    SetImage((heroList.getOrNull(0)?.thumbnail?.path ?: "") + "." + (heroList.getOrNull(0)?.thumbnail?.extension
+        ?: ""))
+    heroList.getOrNull(0)?.let { SetName(it.name) }
+    heroList.getOrNull(0)?.let { it.description?.let { it1 -> SetDescription(it1) } }
+}
+@Composable
+fun SetSeries(seriesList: List<Serie> = emptyList()) {
+    SetName("SERIE")
+    seriesList.getOrNull(0)?.let { SetName(it.title) }
+    seriesList.getOrNull(0)?.let { it.description?.let { it1 -> SetDescription(it1) } }
+}
+
+@Composable
+fun SetComics(comicList: List<Comic> = emptyList()) {
+
+    SetName("COMIC")
+    comicList.getOrNull(0)?.let { SetName(it.title) }
+    comicList.getOrNull(0)?.let { it.description?.let { it1 -> SetDescription(it1) } }
+}
+
+private fun initCalling(viewModel: DetailViewModel, id: Int) {
+    viewModel.getHeroDetail(id)
+    viewModel.getHeroSeries(id)
+    viewModel.getHeroComics(id)
 }

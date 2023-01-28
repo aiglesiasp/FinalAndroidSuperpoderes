@@ -1,6 +1,5 @@
 package com.aiglesiaspubill.finalandroidsuperpoderes.ui.heroesList
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import com.aiglesiaspubill.finalandroidsuperpoderes.data.remote.response.HeroRemote
+import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Hero
 import com.aiglesiaspubill.finalandroidsuperpoderes.navigation.Screens
 
 @Composable
@@ -29,7 +28,7 @@ fun HeroesListScreen(
     onNavigateToDetail: () -> (Unit) = {}
 ) {
     val success = viewModel.state.collectAsState()
-    val heros = viewModel.herosDataWrapper.collectAsState()
+    val heros = viewModel.herosList.collectAsState()
 
     LaunchedEffect(key1 = success.value) {
         if (success.value) {
@@ -44,13 +43,12 @@ fun HeroesListScreen(
             Text(text = "PANTALLA DE HEROES")
         }
     }) {
-        Log.d("HEROES NUEVOS", "${heros.value}")
         MyLazyColumn(heros = heros.value, navController)
     }
 }
 
 @Composable
-fun MyLazyColumn(heros: List<HeroRemote> = emptyList(), navController: NavController) {
+fun MyLazyColumn(heros: List<Hero> = emptyList(), navController: NavController) {
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -63,7 +61,7 @@ fun MyLazyColumn(heros: List<HeroRemote> = emptyList(), navController: NavContro
 }
 
 @Composable
-fun Item(hero: HeroRemote, navController: NavController) {
+fun Item(hero: Hero, navController: NavController) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier

@@ -22,12 +22,12 @@ class HeroesListViewModel @Inject constructor(private val repository: Repository
     private val _state = MutableStateFlow(false)
     val state: StateFlow<Boolean> get() = _state
 
-    private val _herosDataWrapper = MutableStateFlow(emptyList<HeroRemote>())
-    val herosDataWrapper: MutableStateFlow<List<HeroRemote>> get() = _herosDataWrapper
+    private val _herosList = MutableStateFlow(emptyList<Hero>())
+    val herosList: MutableStateFlow<List<Hero>> get() = _herosList
 
-    private fun setValueOnMainThreadHerosDataWrapper(value: List<HeroRemote>) {
+    private fun setValueOnMainThreadHerosDataWrapper(value: List<Hero>) {
         viewModelScope.launch(Dispatchers.Main) {
-            _herosDataWrapper.value = value
+            _herosList.value = value
         }
     }
 
@@ -46,15 +46,6 @@ class HeroesListViewModel @Inject constructor(private val repository: Repository
             repository.getHeroes().flowOn(Dispatchers.IO).collect() {
                 setValueOnMainThreadHerosDataWrapper(it)
             }
-        }
-    }
-
-    fun navigateToDetail() {
-        viewModelScope.launch {
-            val success = withContext(Dispatchers.IO) {
-                repository.navigatetoDetail()
-            }
-            setValueOnMainThreadState(success)
         }
     }
 

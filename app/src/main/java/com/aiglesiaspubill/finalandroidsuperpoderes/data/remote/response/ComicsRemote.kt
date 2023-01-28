@@ -8,10 +8,10 @@ data class ComicsDataWrapper(
 
 
 data class ComicsDataContainer (
-    @Json(name = "results") val results: List<Series>
+    @Json(name = "results") val results: List<ComicsRemote>
 )
 
-data class Comic(
+data class ComicsRemote(
     @Json(name = "id") val id: Int,
     @Json(name = "title") val title: String,
     @Json(name = "description") val description: String?,
