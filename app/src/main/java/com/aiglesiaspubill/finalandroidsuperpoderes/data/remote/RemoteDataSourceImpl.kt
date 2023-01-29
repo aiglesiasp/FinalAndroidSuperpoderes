@@ -1,18 +1,13 @@
 package com.aiglesiaspubill.finalandroidsuperpoderes.data.remote
 
-import com.aiglesiaspubill.finalandroidsuperpoderes.data.mappers.Mappers
 import com.aiglesiaspubill.finalandroidsuperpoderes.data.remote.response.ComicsRemote
 import com.aiglesiaspubill.finalandroidsuperpoderes.data.remote.response.HeroRemote
 import com.aiglesiaspubill.finalandroidsuperpoderes.data.remote.response.SeriesRemote
-import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Comic
-import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Hero
-import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Serie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class RemoteDataSourceImpl @Inject constructor(private val api: MarvelAPI, private val mappers: Mappers): RemoteDataSource {
+class RemoteDataSourceImpl @Inject constructor(private val api: MarvelAPI): RemoteDataSource {
 
     override suspend fun getHeros(): Flow<List<HeroRemote>> {
         val result = api.getHeros().data.results

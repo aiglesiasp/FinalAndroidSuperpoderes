@@ -9,7 +9,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,17 +23,10 @@ import com.aiglesiaspubill.finalandroidsuperpoderes.navigation.Screens
 @Composable
 fun HeroesListScreen(
     navController: NavController,
-    viewModel: HeroesListViewModel = hiltViewModel(),
-    onNavigateToDetail: () -> (Unit) = {}
+    viewModel: HeroesListViewModel = hiltViewModel()
 ) {
-    val success = viewModel.state.collectAsState()
-    val heros = viewModel.herosList.collectAsState()
 
-    LaunchedEffect(key1 = success.value) {
-        if (success.value) {
-            onNavigateToDetail()
-        }
-    }
+    val heros = viewModel.herosList.collectAsState()
 
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar() {

@@ -2,8 +2,6 @@ package com.aiglesiaspubill.finalandroidsuperpoderes.ui.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aiglesiaspubill.finalandroidsuperpoderes.data.mappers.Mappers
-import com.aiglesiaspubill.finalandroidsuperpoderes.data.remote.response.Thumbnail
 import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Comic
 import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Hero
 import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Repository
@@ -11,10 +9,8 @@ import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Serie
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel

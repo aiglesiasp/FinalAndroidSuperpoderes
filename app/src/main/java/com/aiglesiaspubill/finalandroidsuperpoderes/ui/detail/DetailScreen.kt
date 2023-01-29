@@ -26,22 +26,20 @@ import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Serie
 fun DetailScreen(id: Int, viewModel: DetailViewModel= hiltViewModel()) {
 
     LaunchedEffect(key1 = id) {
-        if (id > 0) {
-            initCalling(viewModel, id)
-        }
+        initCalling(viewModel, id)
     }
-    val hero = viewModel.hero.collectAsState()
-    val series = viewModel.serie.collectAsState()
-    val comics = viewModel.comic.collectAsState()
+    val hero = viewModel.hero.collectAsState().value
+    val series = viewModel.serie.collectAsState().value
+    val comics = viewModel.comic.collectAsState().value
 
     Column(
         modifier = Modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SetHero(hero.value)
-        SetSeries(series.value)
-        SetComics(comics.value)
+        SetHero(hero)
+        SetSeries(series)
+        SetComics(comics)
     }
 }
 
