@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(private val repository: Repository): ViewModel() {
+class DetailViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
     private val _hero = MutableStateFlow(emptyList<Hero>())
     val hero: MutableStateFlow<List<Hero>> get() = _hero

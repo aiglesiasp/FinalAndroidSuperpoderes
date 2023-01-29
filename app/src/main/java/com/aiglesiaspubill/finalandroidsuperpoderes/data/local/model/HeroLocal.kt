@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 import com.aiglesiaspubill.finalandroidsuperpoderes.data.remote.response.Thumbnail
 
 @Entity(tableName = "heroes")
-data class HeroLocal (
+data class HeroLocal(
     @PrimaryKey @ColumnInfo(name = "id") val id: Int,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "description") val description: String,

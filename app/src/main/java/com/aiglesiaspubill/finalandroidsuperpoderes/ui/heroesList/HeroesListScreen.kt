@@ -63,7 +63,10 @@ fun Item(hero: Hero, navController: NavController) {
         Image(
             painter = rememberAsyncImagePainter(model = "${hero.thumbnail.path}.${hero.thumbnail.extension}"),
             contentDescription = "Hero Photo",
-            modifier = Modifier.fillMaxWidth().height(250.dp).padding(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(250.dp)
+                .padding(8.dp),
             contentScale = ContentScale.Crop
         )
         Text(text = hero.name, Modifier.padding(8.dp), style = MaterialTheme.typography.subtitle1)

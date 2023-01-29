@@ -7,7 +7,7 @@ data class ComicsDataWrapper(
 )
 
 
-data class ComicsDataContainer (
+data class ComicsDataContainer(
     @Json(name = "results") val results: List<ComicsRemote>
 )
 

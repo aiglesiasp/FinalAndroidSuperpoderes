@@ -15,7 +15,7 @@ import dagger.hilt.components.SingletonComponent
 object LocalModule {
 
     @Provides
-    fun provideDatabase(@ApplicationContext context: Context) : HeroDataBase {
+    fun provideDatabase(@ApplicationContext context: Context): HeroDataBase {
         return Room.databaseBuilder(context, HeroDataBase::class.java, "database-name").build()
     }
 

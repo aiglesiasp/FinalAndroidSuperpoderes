@@ -1,12 +1,7 @@
 package com.aiglesiaspubill.finalandroidsuperpoderes.data.mappers
 
-import com.aiglesiaspubill.finalandroidsuperpoderes.data.local.model.HeroLocal
 import com.aiglesiaspubill.finalandroidsuperpoderes.data.local.model.SerieLocal
-import com.aiglesiaspubill.finalandroidsuperpoderes.data.remote.response.ComicsRemote
-import com.aiglesiaspubill.finalandroidsuperpoderes.data.remote.response.HeroRemote
 import com.aiglesiaspubill.finalandroidsuperpoderes.data.remote.response.SeriesRemote
-import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Comic
-import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Hero
 import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Serie
 import javax.inject.Inject
 

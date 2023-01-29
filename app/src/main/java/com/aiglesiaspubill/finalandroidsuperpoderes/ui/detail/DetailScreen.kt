@@ -1,7 +1,5 @@
 package com.aiglesiaspubill.finalandroidsuperpoderes.ui.detail
 
-
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -23,7 +21,7 @@ import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Hero
 import com.aiglesiaspubill.finalandroidsuperpoderes.domain.Serie
 
 @Composable
-fun DetailScreen(id: Int, viewModel: DetailViewModel= hiltViewModel()) {
+fun DetailScreen(id: Int, viewModel: DetailViewModel = hiltViewModel()) {
 
     LaunchedEffect(key1 = id) {
         initCalling(viewModel, id)
@@ -44,13 +42,18 @@ fun DetailScreen(id: Int, viewModel: DetailViewModel= hiltViewModel()) {
 }
 
 @Composable
-fun SetImage(photo: String = "" ) {
+fun SetImage(photo: String = "") {
     val imageModifier = Modifier
         .fillMaxWidth()
         .height(200.dp)
         .absolutePadding(top = 10.dp, bottom = 10.dp)
 
-    AsyncImage(model = photo, contentDescription = "hero photo", modifier = imageModifier, contentScale = ContentScale.Crop)
+    AsyncImage(
+        model = photo,
+        contentDescription = "hero photo",
+        modifier = imageModifier,
+        contentScale = ContentScale.Crop
+    )
 }
 
 @Composable
@@ -84,11 +87,15 @@ fun SetDescription(description: String = "VACIA") {
 
 @Composable
 fun SetHero(heroList: List<Hero> = emptyList()) {
-    SetImage((heroList.getOrNull(0)?.thumbnail?.path ?: "") + "." + (heroList.getOrNull(0)?.thumbnail?.extension
-        ?: ""))
+    SetImage(
+        (heroList.getOrNull(0)?.thumbnail?.path
+            ?: "") + "." + (heroList.getOrNull(0)?.thumbnail?.extension
+            ?: "")
+    )
     heroList.getOrNull(0)?.let { SetName(it.name) }
     heroList.getOrNull(0)?.let { it.description?.let { it1 -> SetDescription(it1) } }
 }
+
 @Composable
 fun SetSeries(seriesList: List<Serie> = emptyList()) {
     SetName("SERIE")
