@@ -31,6 +31,7 @@ class RepositoryImpl @Inject constructor(
         if (localResult.first().isEmpty()) {
             val remoteResult = remoteDataSource.getHeros()
                 .map { heroList -> mapperHero.mapHeroRemoteToLocal(heroList) }
+
             withContext(Dispatchers.IO) {
                 localDataSource.insertAllHeros(remoteResult.toList().first())
             }
